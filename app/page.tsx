@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
-import QuillWritingAnimation from '@/components/QuillWritingAnimation';
+import QuillWritingAnimation from '../components/QuillWritingAnimation';
 
 export default function Home() {
   const [email, setEmail] = useState('');
