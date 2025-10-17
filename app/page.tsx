@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
-import QuillWritingAnimation from '../components/QuillWritingAnimation';
+import ThreeJSQuillAnimation from '../components/ThreeJSQuillAnimation';
 
 export default function Home() {
   const [email, setEmail] = useState('');
@@ -54,9 +54,19 @@ export default function Home() {
   };
   return (
     <div className="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-8 pb-16" style={{ backgroundColor: '#3A1A4F' }}>
-      {/* Quill Writing Animation */}
+      {/* 3D Quill Writing Animation */}
       <div className="mb-12 md:mb-16 lg:mb-24">
-        <QuillWritingAnimation />
+        <ThreeJSQuillAnimation />
+      </div>
+
+      {/* Main Text */}
+      <div className="mb-8 max-w-2xl mx-auto">
+        <p className="text-[20px] leading-relaxed text-[#FF6B6B] mb-3">
+          Crafting the art & edge of selling beautifully.
+        </p>
+        <p className="text-[18px] md:text-[20px] leading-relaxed text-[#FF6B6B] font-bold">
+          Your listings. Cinematic. Branded. Effortless.
+        </p>
       </div>
 
       {/* Email Form or Success Message */}
