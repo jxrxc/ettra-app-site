@@ -1,8 +1,8 @@
 "use client";
 
+import Image from 'next/image';
 import { useState, useRef } from 'react';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
-import ThreeJSQuillAnimation from '../components/ThreeJSQuillAnimation';
 
 export default function Home() {
   const [email, setEmail] = useState('');

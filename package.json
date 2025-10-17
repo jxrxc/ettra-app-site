@@ -10,14 +10,10 @@
   },
   "dependencies": {
     "@hcaptcha/react-hcaptcha": "^1.12.1",
-    "@react-three/drei": "^10.7.6",
-    "@react-three/fiber": "^9.4.0",
     "@supabase/supabase-js": "^2.75.0",
-    "@types/three": "^0.180.0",
     "next": "15.5.4",
     "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "three": "^0.180.0"
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
