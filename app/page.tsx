@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
-import CSSQuillAnimation from '../components/CSSQuillAnimation';
+import CanvasQuillAnimation from '../components/CanvasQuillAnimation';
 
 export default function Home() {
   const [email, setEmail] = useState('');
@@ -54,9 +54,9 @@ export default function Home() {
   };
   return (
     <div className="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-8 pb-16" style={{ backgroundColor: '#3A1A4F' }}>
-      {/* CSS Quill Writing Animation */}
+      {/* Canvas Quill Writing Animation */}
       <div className="mb-12 md:mb-16 lg:mb-24">
-        <CSSQuillAnimation />
+        <CanvasQuillAnimation />
       </div>
 
       {/* Email Form or Success Message */}
