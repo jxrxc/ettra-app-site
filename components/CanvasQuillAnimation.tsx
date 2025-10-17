@@ -114,7 +114,7 @@ export default function CanvasQuillAnimation() {
       // Draw elements
       drawParticles(progress);
       drawQuill(progress);
-      drawText(progress);
+      drawText();
       
       if (progress < 1) {
         animationId = requestAnimationFrame(animate);
