@@ -1,8 +1,8 @@
 "use client";
 
-import Image from 'next/image';
 import { useState, useRef } from 'react';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
+import QuillWritingAnimation from '@/components/QuillWritingAnimation';
 
 export default function Home() {
   const [email, setEmail] = useState('');
@@ -54,30 +54,9 @@ export default function Home() {
   };
   return (
     <div className="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-8 pb-16" style={{ backgroundColor: '#3A1A4F' }}>
-      {/* Logo */}
+      {/* Quill Writing Animation */}
       <div className="mb-12 md:mb-16 lg:mb-24">
-        <div className="relative responsive-logo">
-          <Image
-            src="/ettra-logo-md.png"
-            alt="Ettra Logo"
-            width={240}
-            height={80}
-            priority
-            className="transition-opacity duration-300"
-            sizes="(max-width: 640px) 120px, (max-width: 1024px) 180px, 240px"
-            style={{ width: 'auto', height: 'auto' }}
-          />
-        </div>
-      </div>
-
-      {/* Main Text */}
-      <div className="mb-8 max-w-2xl mx-auto">
-        <p className="text-[20px] leading-relaxed text-[#FF6B6B] mb-3">
-          Crafting the art & edge of selling beautifully.
-        </p>
-        <p className="text-[18px] md:text-[20px] leading-relaxed text-[#FF6B6B] font-bold">
-          Your listings. Cinematic. Branded. Effortless.
-        </p>
+        <QuillWritingAnimation />
       </div>
 
       {/* Email Form or Success Message */}
