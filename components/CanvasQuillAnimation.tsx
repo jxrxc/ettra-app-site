@@ -6,6 +6,7 @@ export default function CanvasQuillAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [, setIsAnimating] = useState(false);
   const [showText, setShowText] = useState(false);
+  const [quillImage, setQuillImage] = useState<HTMLImageElement | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -13,6 +14,13 @@ export default function CanvasQuillAnimation() {
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+
+    // Load the quill image
+    const img = new Image();
+    img.onload = () => {
+      setQuillImage(img);
+    };
+    img.src = '/ettra-logo-full.png';
 
     // Set canvas size
     const resizeCanvas = () => {
@@ -31,26 +39,16 @@ export default function CanvasQuillAnimation() {
     let startTime = 0;
     const duration = 3000; // 3 seconds
 
-    // Quill properties
-    const quill = {
-      x: -50,
-      y: 150,
-      width: 8,
-      height: 60,
-      angle: 0,
-      featherSize: 25
-    };
+    // Animation properties
 
-    // Text properties
-    const textLines = [
-      "Crafting the art & edge of selling beautifully.",
-      "Your listings. Cinematic. Branded. Effortless."
-    ];
+    // Animation ready
 
     const drawQuill = (progress: number) => {
+      if (!quillImage) return;
+
       const currentX = -50 + (canvas.width + 100) * progress;
       const currentY = 150 + Math.sin(progress * Math.PI * 2) * 10;
-      const currentAngle = progress * Math.PI * 0.3;
+      const currentAngle = progress * Math.PI * 0.2;
 
       // Save context
       ctx.save();
@@ -59,33 +57,10 @@ export default function CanvasQuillAnimation() {
       ctx.translate(currentX, currentY);
       ctx.rotate(currentAngle);
 
-      // Draw quill body (gradient)
-      const bodyGradient = ctx.createLinearGradient(0, -quill.height/2, 0, quill.height/2);
-      bodyGradient.addColorStop(0, '#FF5277');
-      bodyGradient.addColorStop(1, '#E85A7C');
-      
-      ctx.fillStyle = bodyGradient;
-      ctx.fillRect(-quill.width/2, -quill.height/2, quill.width, quill.height);
-
-      // Draw quill tip
-      ctx.beginPath();
-      ctx.moveTo(0, quill.height/2);
-      ctx.lineTo(-quill.width/2, quill.height/2 + 15);
-      ctx.lineTo(quill.width/2, quill.height/2 + 15);
-      ctx.closePath();
-      ctx.fillStyle = '#FF5277';
-      ctx.fill();
-
-      // Draw feather
-      const featherGradient = ctx.createLinearGradient(-quill.featherSize/2, -quill.height/2, quill.featherSize/2, -quill.height/2);
-      featherGradient.addColorStop(0, 'transparent');
-      featherGradient.addColorStop(0.3, '#E85A7C');
-      featherGradient.addColorStop(1, '#FF5277');
-      
-      ctx.fillStyle = featherGradient;
-      ctx.beginPath();
-      ctx.ellipse(0, -quill.height/2 - 5, quill.featherSize/2, 12, 0, 0, Math.PI * 2);
-      ctx.fill();
+      // Draw the quill image (scaled down)
+      const quillWidth = 60;
+      const quillHeight = 60;
+      ctx.drawImage(quillImage, -quillWidth/2, -quillHeight/2, quillWidth, quillHeight);
 
       // Draw ink trail
       if (progress > 0.1) {
@@ -103,30 +78,9 @@ export default function CanvasQuillAnimation() {
       ctx.restore();
     };
 
-    const drawText = (progress: number) => {
-      if (progress < 0.6) return;
-
-      const textProgress = Math.min((progress - 0.6) / 0.4, 1);
-      
-      ctx.save();
-      ctx.fillStyle = '#FF6B6B';
-      ctx.font = '20px Montserrat, sans-serif';
-      ctx.textAlign = 'center';
-
-      // First line
-      const firstLineY = 200;
-      ctx.globalAlpha = Math.min(textProgress * 2, 1);
-      ctx.fillText(textLines[0], canvas.width / 2, firstLineY);
-
-      // Second line (delayed)
-      if (textProgress > 0.5) {
-        const secondLineY = firstLineY + 30;
-        ctx.globalAlpha = Math.min((textProgress - 0.5) * 2, 1);
-        ctx.font = 'bold 18px Montserrat, sans-serif';
-        ctx.fillText(textLines[1], canvas.width / 2, secondLineY);
-      }
-
-      ctx.restore();
+    const drawText = () => {
+      // Text is now handled by the static component below, not drawn on canvas
+      // This prevents duplicate text
     };
 
     const drawParticles = (progress: number) => {
@@ -170,10 +124,16 @@ export default function CanvasQuillAnimation() {
       }
     };
 
-    // Start animation
-    setIsAnimating(true);
-    startTime = 0;
-    animationId = requestAnimationFrame(animate);
+    // Start animation only when quill image is loaded
+    const startAnimation = () => {
+      if (quillImage) {
+        setIsAnimating(true);
+        startTime = 0;
+        animationId = requestAnimationFrame(animate);
+      }
+    };
+
+    startAnimation();
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
@@ -181,7 +141,7 @@ export default function CanvasQuillAnimation() {
         cancelAnimationFrame(animationId);
       }
     };
-  }, []);
+  }, [quillImage]); // Restart animation when image loads
 
   return (
     <div className="w-full mb-8">
