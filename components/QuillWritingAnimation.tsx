@@ -10,12 +10,12 @@ export default function QuillWritingAnimation() {
     // Start animation after component mounts
     const timer = setTimeout(() => {
       setIsAnimating(true);
-    }, 500);
+    }, 1000);
 
     // Show text after quill animation completes
     const textTimer = setTimeout(() => {
       setShowText(true);
-    }, 3500);
+    }, 4000);
 
     return () => {
       clearTimeout(timer);
@@ -33,20 +33,20 @@ export default function QuillWritingAnimation() {
           viewBox="0 0 300 120" 
           className="responsive-logo"
         >
-          {/* Quill Path */}
+          {/* Static Quill Path (initial state) */}
           <path
             d="M50 80 Q60 70 70 75 Q80 80 90 75 Q100 70 110 75 Q120 80 130 75 Q140 70 150 75 L160 80 L155 85 Q145 90 135 85 Q125 80 115 85 Q105 90 95 85 Q85 80 75 85 Q65 90 55 85 Z"
             fill="#FF5277"
             stroke="#FF5277"
             strokeWidth="2"
-            className={`transition-all duration-1000 ${isAnimating ? 'opacity-100' : 'opacity-0'}`}
+            className={`transition-all duration-1000 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}
           />
           
-          {/* Quill Tip */}
+          {/* Static Quill Tip (initial state) */}
           <path
             d="M155 85 L165 90 L160 95 L155 90 Z"
             fill="#FF5277"
-            className={`transition-all duration-1000 ${isAnimating ? 'opacity-100' : 'opacity-0'}`}
+            className={`transition-all duration-1000 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}
           />
 
           {/* Text Line 1 Path */}
@@ -75,18 +75,18 @@ export default function QuillWritingAnimation() {
           />
 
           {/* Animated Quill Movement */}
-          <g className={`transition-all duration-3000 ease-in-out ${isAnimating ? 'translate-x-40' : 'translate-x-0'}`}>
+          <g className={`transition-all duration-3000 ease-in-out ${isAnimating ? 'translate-x-32' : 'translate-x-0'}`}>
             <path
               d="M50 80 Q60 70 70 75 Q80 80 90 75 Q100 70 110 75 Q120 80 130 75 Q140 70 150 75 L160 80 L155 85 Q145 90 135 85 Q125 80 115 85 Q105 90 95 85 Q85 80 75 85 Q65 90 55 85 Z"
               fill="#FF5277"
               stroke="#FF5277"
               strokeWidth="2"
-              opacity={isAnimating ? 1 : 0}
+              className={`transition-opacity duration-500 ${isAnimating ? 'opacity-100' : 'opacity-0'}`}
             />
             <path
               d="M155 85 L165 90 L160 95 L155 90 Z"
               fill="#FF5277"
-              opacity={isAnimating ? 1 : 0}
+              className={`transition-opacity duration-500 ${isAnimating ? 'opacity-100' : 'opacity-0'}`}
             />
           </g>
         </svg>
