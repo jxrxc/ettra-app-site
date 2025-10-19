@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useState, useRef } from 'react';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
+import MarketingSlider from '../components/MarketingSlider';
 
 export default function Home() {
   const [email, setEmail] = useState('');
@@ -68,6 +69,11 @@ export default function Home() {
             style={{ width: 'auto', height: 'auto' }}
           />
         </div>
+      </div>
+
+      {/* Marketing Slider */}
+      <div className="mb-12 max-w-lg mx-auto">
+        <MarketingSlider />
       </div>
 
       {/* Main Text */}
