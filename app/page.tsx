@@ -13,27 +13,59 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!captchaToken) {
+      alert('Please complete the hCaptcha verification.');
+      return;
+    }
+    
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitted(true);
+    try {
+      const response = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          captchaToken,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setEmail(''); // Clear the form
+        setCaptchaToken(null); // Reset captcha
+        if (captchaRef.current) {
+          captchaRef.current.resetCaptcha();
+        }
+      } else {
+        alert(result.error || 'Failed to join waitlist. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Network error. Please check your connection and try again.');
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
   return (
     <div className="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-8 pb-16" style={{ backgroundColor: '#3A1A4F' }}>
       {/* Logo */}
-      <div className="mb-20">
+      <div className="mb-12 md:mb-16 lg:mb-24">
         <div className="relative responsive-logo">
           <Image
             src="/ettra-logo-md.png"
             alt="Ettra Logo"
-            width={300}
-            height={100}
+            width={240}
+            height={80}
             priority
             className="transition-opacity duration-300"
-            sizes="(max-width: 640px) 120px, (max-width: 1024px) 180px, 300px"
+            sizes="(max-width: 640px) 120px, (max-width: 1024px) 180px, 240px"
+            style={{ width: 'auto', height: 'auto' }}
           />
         </div>
       </div>
@@ -43,7 +75,7 @@ export default function Home() {
         <p className="text-[20px] leading-relaxed text-[#FF6B6B] mb-3">
           Crafting the art & edge of selling beautifully.
         </p>
-        <p className="text-xl md:text-2xl leading-relaxed text-[#FF6B6B]">
+        <p className="text-[18px] md:text-[20px] leading-relaxed text-[#FF6B6B] font-bold">
           Your listings. Cinematic. Branded. Effortless.
         </p>
       </div>
@@ -72,7 +104,7 @@ export default function Home() {
             <div className="flex justify-center">
               <HCaptcha
                 ref={captchaRef}
-                sitekey="10000000-ffff-ffff-ffff-000000000001"
+                sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY || "10000000-ffff-ffff-ffff-000000000001"}
                 onVerify={(token) => setCaptchaToken(token)}
                 onExpire={() => setCaptchaToken(null)}
                 onError={() => setCaptchaToken(null)}
